@@ -1,0 +1,31 @@
+.topbar button {
+  float: right;
+  margin-right: 20px;
+}
+
+.topbar span {
+  margin-left: 20px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+.box {
+  margin: 2px;
+  border: 1px solid green;
+  border-radius: 2px;
+}
+
+h4 {
+  text-align: center;
+}
+
+table {
+  width: 100%;
+}
+
+.footer-row {
+  font-weight: bold;
+}

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="Utd-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div>
+      <div class="topbar">
+        <span>Welcome {{ userName }}</span>
+        <button mat-raised-button color="accent" (click)="logout()">
+          Logout
+        </button>
+        <hr />
+      </div>
+      <div class="grid-container">
+        <div class="grid-item">
+          <div class="box">
+            <h4>Products Available</h4>
+            <hr />
+            <div class="table-container">
+              <table mat-table [dataSource]="dataList">
+                <ng-container matColumnDef="name" class="col-2">
+                  <th mat-header-cell *matHeaderCellDef>Product</th>
+                  <td mat-cell *matCellDef="let data">{{ data.name }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="quantity" class="col-2">
+                  <th mat-header-cell *matHeaderCellDef>Quantity</th>
+                  <td mat-cell *matCellDef="let data">{{ data.quantity }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="price" class="col-2">
+                  <th mat-header-cell *matHeaderCellDef>Price</th>
+                  <td mat-cell *matCellDef="let data">
+                    {{ data.price | currency: "INR":"symbol-narrow" }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="totalPrice" class="col-2">
+                  <th mat-header-cell *matHeaderCellDef>Total Price</th>
+                  <td mat-cell *matCellDef="let data">
+                    {{ getTotalPrice(data) | currency: "INR":"symbol-narrow" }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="addToCart" class="col-1">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let data">
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      (click)="addToCart(data)"
+                      *ngIf="data.quantity > 0"
+                    >
+                      Add
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="displayedColumns; sticky: true"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumns"
+                ></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="grid-item">
+          <div class="box">
+            <h4>Cart</h4>
+            <hr />
+            <div class="table-container" id="printArea">
+              <table mat-table [dataSource]="cartItemsList">
+                <ng-container matColumnDef="name" class="col-2">
+                  <th mat-header-cell *matHeaderCellDef>Product</th>
+                  <td mat-cell *matCellDef="let data">{{ data.name }}</td>
+                  <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+
+                <ng-container matColumnDef="quantity" class="col-2">
+                  <th mat-header-cell *matHeaderCellDef>Quantity</th>
+                  <td mat-cell *matCellDef="let data">{{ data.quantity }}</td>
+                  <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+
+                <ng-container matColumnDef="price" class="col-2">
+                  <th mat-header-cell *matHeaderCellDef>Price</th>
+                  <td mat-cell *matCellDef="let data">
+                    {{ data.price | currency: "INR":"symbol-narrow" }}
+                  </td>
+                  <td mat-footer-cell *matFooterCellDef>Grand Total:</td>
+                </ng-container>
+
+                <ng-container matColumnDef="totalPrice" class="col-2">
+                  <th mat-header-cell *matHeaderCellDef>Total Price</th>
+                  <td mat-cell *matCellDef="let data">
+                    {{ data.totalPrice | currency: "INR":"symbol-narrow" }}
+                  </td>
+                  <td mat-footer-cell *matFooterCellDef>
+                    {{ getTotalCost() | currency: "INR":"symbol-narrow" }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="addToCart" class="col-1">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let data">
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      (click)="addToCart(data)"
+                    >
+                      Add
+                    </button>
+                  </td>
+                  <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+
+                <ng-container matColumnDef="delete" class="col-1">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let data">
+                    <button
+                      mat-raised-button
+                      color="warn"
+                      (click)="delete(data)"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                  <td mat-footer-cell *matFooterCellDef>
+                    <button mat-raised-button color="accent" (click)="print()">
+                      Print
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="displayedCartColumns; sticky: true"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedCartColumns"
+                ></tr>
+
+                <tr
+                  mat-footer-row
+                  *matFooterRowDef="displayedCartColumns; sticky: true"
+                  class="footer-row"
+                ></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

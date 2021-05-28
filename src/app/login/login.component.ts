@@ -36,7 +36,11 @@ export class LoginComponent implements OnInit {
     ) {
       localStorage.setItem('loggedIn', 'true');
       this.route.navigate(['/product-details']);
-    } else {
+    }
+    else if(this.loginForm.value.email == this.cookieService.get('email')){
+      this.errMessage = 'Email Id not Registered, Kindly register or use registered Id';
+    }
+     else {
       this.errMessage = 'Please check email or password';
       console.log(this.errMessage);
       localStorage.setItem('loggedIn', 'false');

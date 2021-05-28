@@ -16,6 +16,7 @@ import { MustMatch } from '../shared/helpers/must-match.validator';
 })
 export class RegistrationComponent implements OnInit {
   registerForm: FormGroup | any;
+  errMessage: string = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -52,10 +53,15 @@ export class RegistrationComponent implements OnInit {
   }
 
   register() {
+    if(this.registerForm.value.email == this.cookieService.get('email')){
+      this.errMessage = 'Email Id already Registered, Kindly login or use new Id';
+    }
+    else{
     console.log(this.registerForm.value);
     this.cookieService.set('email', this.registerForm.value.email);
     this.cookieService.set('pwd', this.registerForm.value.pwd);
     this.cookieService.set('fname', this.registerForm.value.fname);
     this.route.navigate(['/login']);
+  }
   }
 }
